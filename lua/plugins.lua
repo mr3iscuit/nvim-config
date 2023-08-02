@@ -16,12 +16,29 @@ vim.opt.rtp:prepend(lazypath)
 local lazy = require "lazy"
 
 local plugins = {
-
+    -- jdtls
+    -- {
+    --     "mfussenegger/nvim-jdtls",
+    --     version = "*",
+    --     config = function ()
+    --         require("plugins/java.lua")
+    --     end,
+    --     ft = { "java" },
+    -- },
+    -- {
+    --     "rust-lang/rust.vim",
+    --     config = function ()
+    --
+    --     end,
+    -- },
     -- stdlib
     { "nvim-lua/plenary.nvim",      version = "*", },
 
+    -- fzf
+    { "junegunn/fzf",               version = "*", },
+
     -- formatter
-    { 'mhartington/formatter.nvim', version = "*", config = function() require "plugins/format-nvim" end},
+    { 'mhartington/formatter.nvim', version = "*", config = function() require "plugins/format-nvim" end },
 
     -- theming
     { 'projekt0n/github-nvim-theme' }, { "catppuccin/nvim", as = "catppuccin" },
@@ -107,7 +124,10 @@ local plugins = {
         "nvim-tree/nvim-tree.lua",
         version = "*",
         dependencies = { "kyazdani42/nvim-web-devicons" },
-        config = function() require "plugins/tree" end,
+        config = function()
+            require("plugins/tree")
+            require('nvim-tree').setup()
+        end,
     },
     -- file tree\
 

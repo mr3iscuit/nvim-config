@@ -6,7 +6,6 @@ autocmd("TextYankPost", {
         vim.highlight.on_yank { higroup = "Visual", timeout = 150 }
     end,
 })
-
 -- Enable spellchecking in markdown, text and gitcommit files
 -- autocmd("FileType", {
 --     pattern = { "gitcommit", "markdown", "text", "tex" },

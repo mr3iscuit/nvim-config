@@ -20,7 +20,10 @@ bool operator<(const Point& left, const Point& right) {
     const int leftsum = left.x + left.y;
     const int rightsum = right.x + right.y;
 
-    if (leftsum == rightsum) return left.x < right.x;
+    if (leftsum == rightsum) {
+        return left.x < right.x;
+    }
+
     return leftsum < rightsum;
 }
 
@@ -29,7 +32,10 @@ bool operator>(const Point& left, const Point& right) {
     const int leftsum = left.x + left.y;
     const int rightsum = right.x + right.y;
 
-    if (leftsum == rightsum) return left.x > right.x;
+    if (leftsum == rightsum) {
+        return left.x > right.x;
+    }
+
     return leftsum > rightsum;
 }
 
@@ -52,5 +58,3 @@ bool operator>=(const Point& left, const Point& right) {
 bool operator!=(const Point& left, const Point& right) {
     return !(left == right);
 }
-
-

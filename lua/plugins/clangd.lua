@@ -12,10 +12,16 @@ local root_pattern = util.root_pattern("compile_commands.json", "compile_flags.t
 
 -- Set up the Clangd configuration for C++ files
 
--- Set up ClangFormat language server
 lspconfig.clangformat.setup {
   filetypes = { 'c', 'cpp', 'objc', 'objcpp' },
   root_dir = function(fname)
+    -- Use global .clang-format if it exists
+    local global_clang_format = vim.fn.glob('~/.clang-format')
+    if global_clang_format ~= '' then
+      return global_clang_format
+    end
+
+    -- Fallback to searching for .clang-format in the project directory
     local filename = util.path.is_absolute(fname) and fname or util.path.join(vim.loop.cwd(), fname)
     return util.root_pattern(".clang-format")(filename) or util.path.dirname(filename)
   end,
@@ -30,6 +36,25 @@ lspconfig.clangformat.setup {
     }
   }
 }
+
+-- Set up ClangFormat language server
+-- lspconfig.clangformat.setup {
+--   filetypes = { 'c', 'cpp', 'objc', 'objcpp' },
+--   root_dir = function(fname)
+--     local filename = util.path.is_absolute(fname) and fname or util.path.join(vim.loop.cwd(), fname)
+--     return util.root_pattern(".clang-format")(filename) or util.path.dirname(filename)
+--   end,
+--   settings = {
+--     format = {
+--       style = 'llvm',
+--       useTab = 'always',
+--       pointerAlignment = 'Left',
+--       referenceAlignment = 'Left',
+--       derivePointerAlignment = false,
+--       tabWidth = 4,
+--     }
+--   }
+-- }
 
 -- lspconfig.clangformat.setup {
 --   filetypes = { 'c', 'cpp', 'objc', 'objcpp' },

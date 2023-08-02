@@ -52,7 +52,7 @@ vim.api.nvim_set_keymap('n', ',mktree', ':- 1read $HOME/.config/nvim/skeleton/mk
 vim.api.nvim_set_keymap('v', ',cp', ':w !wl-copy<CR><Esc>', { noremap = true })
 
 -- Set space as leader
-vim.g.mapleader = " "
+vim.g.mapleader = ","
 
 -- Map
 map("n", "<Leader>w", "<C-w>")
@@ -67,16 +67,16 @@ map("v", "K", ":m '<-2<CR>gv=gv")
 
 
 -- Resizing panes
-vim.api.nvim_set_keymap('n', '<C-Left>', ':vertical resize -1<CR>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<C-Down>', ':resize +1<CR>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<C-Up>', ':resize -1<CR>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<C-Right>', ':vertical resize +1<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<C-h>', ':vertical resize +4<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<C-j>', ':resize +1<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<C-k>', ':resize -1<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<C-l>', ':vertical resize -4<CR>', { noremap = true })
 
 -- focus between splits Ctrl+{hjkl}
-vim.api.nvim_set_keymap('n', '<C-h>', ':wincmd h<CR>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<C-j>', ':wincmd j<CR>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<C-k>', ':wincmd k<CR>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<C-l>', ':wincmd l<CR>', { noremap = true })
+-- vim.api.nvim_set_keymap('n', '<C-h>', ':wincmd h<CR>', { noremap = true })
+-- vim.api.nvim_set_keymap('n', '<C-j>', ':wincmd j<CR>', { noremap = true })
+-- vim.api.nvim_set_keymap('n', '<C-k>', ':wincmd k<CR>', { noremap = true })
+-- vim.api.nvim_set_keymap('n', '<C-l>', ':wincmd l<CR>', { noremap = true })
 
 
 -- Join lines without moving the curser to the end
