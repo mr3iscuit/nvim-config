@@ -3,12 +3,24 @@ local opt = vim.opt
 opt.number = true
 opt.relativenumber = true
 
--- F7 and F8 for tab
-vim.api.nvim_set_keymap('n', '<F7>', ':tabp<CR>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<F8>', ':tabn<CR>', { noremap = true })
+vim.diagnostic.config({
+    virtual_text = false,
+    float = {
+        focusable = false,
+        style = "minimal",
+        border = "rounded",
+        source = "always",
+        header = "",
+        prefix = "",
+    },
+    signs = true,
+    underline = true,
+    update_in_insert = true,
+    severity_sort = false,
+})
 
 -- Scroll offset
-vim.opt.scrolloff = 8
+-- vim.opt.scrolloff = 8
 
 -- Set highlight on search
 vim.o.hlsearch = true
@@ -24,6 +36,9 @@ vim.wo.number = true
 
 -- Enable mouse mode
 vim.o.mouse = 'a'
+
+-- Autocompletion height
+vim.o.pumheight = 20
 
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
@@ -53,6 +68,10 @@ vim.o.completeopt = 'menuone,noselect'
 
 -- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
+
+-- Default terminal
+-- vim.g.terminal_emulator = '/bin/zsh'
+vim.api.nvim_set_var('terminal_emulator', '/bin/zsh')
 
 -- make windows the samue width when closing one
 opt.equalalways = true

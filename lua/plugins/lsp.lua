@@ -7,13 +7,14 @@ local on_attach = function(_, bufnr)
 
     vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
     vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
+
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
     vim.keymap.set('n', 'gr', require('telescope.builtin').lsp_references, bufopts)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
     vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
     -- vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
     vim.keymap.set('n', '<leader>ds', '<cmd>Telescope lsp_document_symbols<cr>', bufopts)
 
@@ -63,14 +64,23 @@ local tsserver_exists = vim.fn.executable('tsserver') == 1
 if tsserver_exists then
     lspconfig.tsserver.setup({
         capabilities = capabilities,
-        on_attach    = on_attach,
+        on_attach    = function(client, bufnr)
+            client.server_capabilities.documentFormattingProvider = false
+        end,
     })
 end
+
+-- html
+lspconfig.html.setup({
+    filetypes    = { "html", },
+    capabilities = capabilities,
+    on_attach    = on_attach,
+})
 
 lspconfig.rust_analyzer.setup {
     on_attach = on_attach,
     -- Server-specific settings. See `:help lspconfig-setup`
-    settings = {
+    settings  = {
         ['rust-analyzer'] = {},
     },
 }
@@ -105,12 +115,17 @@ lspconfig.rust_analyzer.setup {
 --     format_on_save = true,
 -- })
 
--- -- Java
--- lspconfig.jdtls.setup({
+-- Java
+lspconfig.jdtls.setup({
+    on_attach    = on_attach,
+    capabilities = capabilities,
+})
+--
+-- lspconfig.python.setup({
 --     on_attach    = on_attach,
 --     capabilities = capabilities,
 -- })
-
+--
 -- C/C++ LSP
 lspconfig.clangd.setup {
     on_attach    = on_attach,

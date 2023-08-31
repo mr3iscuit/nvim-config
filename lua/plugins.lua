@@ -16,29 +16,45 @@ vim.opt.rtp:prepend(lazypath)
 local lazy = require "lazy"
 
 local plugins = {
-    -- jdtls
-    -- {
-    --     "mfussenegger/nvim-jdtls",
-    --     version = "*",
-    --     config = function ()
-    --         require("plugins/java.lua")
-    --     end,
-    --     ft = { "java" },
-    -- },
-    -- {
-    --     "rust-lang/rust.vim",
-    --     config = function ()
-    --
-    --     end,
-    -- },
-    -- stdlib
-    { "nvim-lua/plenary.nvim",      version = "*", },
+    -- A small Neovim plugin for previewing native LSP's goto definition, type definition, implementation, and references calls in floating windows.
+    {
+        'rmagatti/goto-preview',
+        config = function()
+            require('goto-preview').setup {
+                width = 81,                                          -- Width of the floating window
+                height = 20,                                         -- Height of the floating window
+                border = { "↖", "─", "┐", "│", "┘", "─", "└", "│" }, -- Border characters of the floating window
+                default_mappings = false,                            -- Bind default mappings
+                debug = false,                                       -- Print debug information
+                opacity = nil,                                       -- 0-100 opacity level of the floating window where 100 is fully transparent.
+                resizing_mappings = false,                           -- Binds arrow keys to resizing the floating window.
+                post_open_hook = nil,                                -- A function taking two arguments, a buffer and a window to be ran as a hook.
+                post_close_hook = nil,                               -- A function taking two arguments, a buffer and a window to be ran as a hook.
+                references = {                                       -- Configure the telescope UI for slowing the references cycling window.
+                    telescope = require("telescope.themes").get_dropdown({ hide_preview = false })
+                },
+                -- These two configs can also be passed down to the goto-preview definition and implementation calls for one off "peak" functionality.
+                focus_on_open = true,                                        -- Focus the floating window when opening it.
+                dismiss_on_move = false,                                     -- Dismiss the floating window when moving the cursor.
+                force_close = true,                                          -- passed into vim.api.nvim_win_close's second argument. See :h nvim_win_close
+                bufhidden = "wipe",                                          -- the bufhidden option to set on the floating window. See :h bufhidden
+                stack_floating_preview_windows = true,                       -- Whether to nest floating windows
+                preview_window_title = { enable = true, position = "left" }, -- Whether to set the preview window title as the filename
+
+            }
+        end
+    },
+
+    { "nvim-lua/plenary.nvim", },
+
+    -- Vim regex pattern syntax highlighting.
+    { "galicarnax/vim-regex-syntax", },
 
     -- fzf
-    { "junegunn/fzf",               version = "*", },
+    { "junegunn/fzf",                version = "*", },
 
     -- formatter
-    { 'mhartington/formatter.nvim', version = "*", config = function() require "plugins/format-nvim" end },
+    { 'mhartington/formatter.nvim',  version = "*", config = function() require "plugins/format-nvim" end },
 
     -- theming
     { 'projekt0n/github-nvim-theme' }, { "catppuccin/nvim", as = "catppuccin" },
@@ -77,9 +93,12 @@ local plugins = {
         dependencies = {
             'williamboman/mason.nvim',
             'williamboman/mason-lspconfig.nvim',
+            'mfussenegger/nvim-jdtls',
             { 'j-hui/fidget.nvim', opts = {} },
         },
-        config = function() require "plugins/lsp" end,
+        config = function()
+            require "plugins/lsp"
+        end,
     },
     {
         "glepnir/lspsaga.nvim",
@@ -87,6 +106,10 @@ local plugins = {
         config = function() require "plugins/lspsaga" end,
     },
     -- lsp\
+
+
+    -- java
+    { 'mfussenegger/nvim-jdtls', },
 
     -- autocompletions
     {
@@ -108,7 +131,18 @@ local plugins = {
             'williamboman/mason.nvim',
             'leoluz/nvim-dap-go',
         },
-        config = function() require "plugins/dap" end,
+        config = function()
+            require("plugins/dap")
+            require("mason").setup({
+                ui = {
+                    icons = {
+                        package_installed = "✓",
+                        package_pending = "➜",
+                        package_uninstalled = "✗"
+                    }
+                }
+            })
+        end,
     },
     --outocompletions\
 
@@ -125,8 +159,35 @@ local plugins = {
         version = "*",
         dependencies = { "kyazdani42/nvim-web-devicons" },
         config = function()
-            require("plugins/tree")
-            require('nvim-tree').setup()
+            -- require("plugins/tree")
+            require('nvim-tree').setup({
+                git = {
+                    enable = true,
+                    ignore = false,
+                    timeout = 500,
+                },
+                -- update_cwd = true,
+                -- open_on_setup = true,
+                -- open_on_setup_file = true,
+                -- actions = {
+                --     open_file = {
+                --         resize_window = true,
+                --     },
+                -- },
+                -- view = {
+                --     side = "left",
+                -- },
+                -- update_focused_file = {
+                --     enable = true,
+                --     update_cwd = true,
+                -- },
+                -- filters = {
+                --     dotfiles = false,
+                -- },
+                -- diagnostics = {
+                --     enable = true,
+                -- },
+            })
         end,
     },
     -- file tree\
