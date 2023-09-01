@@ -143,7 +143,7 @@ vim.keymap.set(
 vim.keymap.set(
     'n',
     '<C-h>',
-    ':vertical resize +5<CR>',
+    ':vertical resize -5<CR>',
     { noremap = true }
 )
 
@@ -164,7 +164,7 @@ vim.keymap.set(
 vim.keymap.set(
     'n',
     '<C-l>',
-    ':vertical resize -5<CR>',
+    ':vertical resize +5<CR>',
     { noremap = true }
 )
 
