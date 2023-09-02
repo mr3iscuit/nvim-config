@@ -1,7 +1,5 @@
 #!/bin/bash
 
-#!/bin/bash
-
 function list_files {
     local dir="$1"
     local indent="${2:-0}"

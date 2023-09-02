@@ -55,7 +55,7 @@ local config = {
                         .. "-XX:GCTimeRatio=4"
                         .. "-XX:AdaptiveSizePolicyWeight=90"
                         .. "-Dsun.zip.disableMemoryMapping=true"
-                        .. "-Xmx1G -Xms500m"
+                        .. "-Xmx500m -Xms500m"
                         .. "-Xlog:disable",
                 }
             }

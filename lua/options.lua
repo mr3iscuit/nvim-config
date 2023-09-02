@@ -37,6 +37,8 @@ vim.wo.number = true
 -- Enable mouse mode
 vim.o.mouse = 'a'
 
+vim.o.scroll = 1
+
 -- Autocompletion height
 vim.o.pumheight = 20
 
@@ -80,5 +82,3 @@ opt.equalalways = true
 opt.title = true
 
 vim.wo.fillchars = 'eob: '
-
-vim.cmd [[colorscheme github_dark_dimmed]]

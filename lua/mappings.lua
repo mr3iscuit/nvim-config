@@ -8,8 +8,8 @@ vim.keymap.set("x", "<leader>w", "<C-w>")
 
 -- dap
 -- Basic debugging keymaps, feel free to change to your liking!
-local dap = require 'dap'
-local dapui = require 'dapui'
+local dap   = require("dap")
+local dapui = require("dapui")
 
 vim.keymap.set(
     'n',
@@ -54,7 +54,7 @@ vim.keymap.set(
 vim.keymap.set(
     'n',
     '<leader>w',
-    "<cmd>:lua require('dapui').toggle() <CR>",
+    dapui.toggle,
     { desc = 'Toggle dap ui' }
 )
 
@@ -168,6 +168,19 @@ vim.keymap.set(
     { noremap = true }
 )
 
+-- vim.keymap.set(
+--     'n',
+--     '<ScrollWheelRight>',
+--     ':vertical resize -1<CR>',
+--     { noremap = true }
+-- )
+--
+-- vim.keymap.set(
+--     'n',
+--     '<ScrollWheelLeft>',
+--     ':vertical resize 1<CR>',
+--     { noremap = true }
+-- )
 
 -- focus between splits Ctrl+{hjkl}
 -- map('n', '<C-h>', ':wincmd h<CR>', { noremap = true })
@@ -548,7 +561,7 @@ local jdtls = require("jdtls")
 vim.keymap.set(
     'n',
     '<A-o>',
-    ':lua require("jdtls").organize_imports()<CR>',
+    jdtls.organize_imports,
     { noremap = true, silent = true }
 )
 
@@ -556,14 +569,16 @@ vim.keymap.set(
 vim.keymap.set(
     'n',
     'crv',
-    ':lua require("jdtls").extract_variable()<CR>',
+    jdtls.extract_variable,
     { noremap = true, silent = true }
 )
 
 vim.keymap.set(
     'x',
     'crv',
-    '<Esc>:lua require("jdtls").extract_variable(true)<CR>',
+    function()
+        jdtls.extract_variable(true)
+    end,
     { noremap = true, silent = true }
 )
 
@@ -571,14 +586,16 @@ vim.keymap.set(
 vim.keymap.set(
     'n',
     'crc',
-    ':lua require("jdtls").extract_constant()<CR>',
+    jdtls.extract_constant,
     { noremap = true, silent = true }
 )
 
 vim.keymap.set(
     'x',
     'crc',
-    '<Esc>:lua require("jdtls").extract_constant(true)<CR>',
+    function()
+        jdtls.extract_constant(true)
+    end,
     { noremap = true, silent = true }
 )
 
@@ -586,7 +603,9 @@ vim.keymap.set(
 vim.keymap.set(
     'x',
     'crm',
-    '<Esc>:lua require("jdtls").extract_method(true)<CR>',
+    function()
+        jdtls.extract_method(true)
+    end,
     { noremap = true, silent = true }
 )
 
@@ -594,7 +613,7 @@ vim.keymap.set(
 vim.keymap.set(
     'n',
     '<leader>df',
-    ':lua require("jdtls").test_class()<CR>',
+    jdtls.test_class,
     { noremap = true, silent = true }
 )
 
@@ -602,6 +621,46 @@ vim.keymap.set(
 vim.keymap.set(
     'n',
     '<leader>dn',
-    ':lua require("jdtls").test_nearest_method()<CR>',
+    jdtls.test_nearest_method,
     { noremap = true, silent = true }
 )
+
+-- MOUSE WHEEL
+-- Map mouse wheel scrolling in normal mode
+vim.keymap.set(
+    'n',
+    '<ScrollWheelUp>',
+    function()
+        require('neoscroll').scroll(-12, false, 90)
+    end,
+    {
+        noremap = true,
+        silent = true
+    }
+)
+
+vim.keymap.set(
+    'n',
+    '<ScrollWheelDown>',
+    function()
+        require('neoscroll').scroll(12, false, 90)
+    end,
+    {
+        noremap = true,
+        silent = true
+    }
+)
+
+local t    = {}
+-- Syntax: t[keys] = {function, {function arguments}}
+t['<C-u>'] = { 'scroll', { '-vim.wo.scroll', 'true', '250' } }
+t['<C-d>'] = { 'scroll', { 'vim.wo.scroll', 'true', '250' } }
+t['<C-b>'] = { 'scroll', { '-vim.api.nvim_win_get_height(0)+2', 'true', '450' } }
+t['<C-f>'] = { 'scroll', { 'vim.api.nvim_win_get_height(0)-2', 'true', '450' } }
+t['<C-y>'] = { 'scroll', { '-0.10', 'false', '100' } }
+t['<C-e>'] = { 'scroll', { '0.10', 'false', '100' } }
+t['zt']    = { 'zt', { '250' } }
+t['zz']    = { 'zz', { '250' } }
+t['zb']    = { 'zb', { '250' } }
+
+require('neoscroll.config').set_mappings(t)
